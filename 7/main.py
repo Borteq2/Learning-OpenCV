@@ -1,6 +1,6 @@
 import cv2
 
-img = cv2.imread('../images/file_50684_258710.jpg')
+img = cv2.imread('../images/a_lot.jpg')
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 faces = cv2.CascadeClassifier('faces.xml')
