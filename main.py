@@ -6,10 +6,7 @@ def read_show_photo(path='images/pyos-samolyot.jpg'):
 
     # new_img = cv2.resize(img, (300, 500))  # cruel resizing
     img = cv2.resize(img, (img.shape[1] // 2, img.shape[0] // 2))  # proportional resizing
-
-
-
-
+    img = cv2.GaussianBlur(img, (9, 9), 0)  # only not odd values in tuple
 
 
     print(img.shape)  # width height layers
