@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 
 def read_show_photo(path='images/pyos-samolyot.jpg'):
@@ -6,8 +7,15 @@ def read_show_photo(path='images/pyos-samolyot.jpg'):
 
     # new_img = cv2.resize(img, (300, 500))  # cruel resizing
     img = cv2.resize(img, (img.shape[1] // 2, img.shape[0] // 2))  # proportional resizing
-    img = cv2.GaussianBlur(img, (9, 9), 0)  # only not odd values in tuple
+    img = cv2.GaussianBlur(img, (1, 1), 0)  # only not odd values in tuple
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+    img = cv2.Canny(img, 140, 140)  # lower = more precision
+
+    kernel = np.ones((5, 5), np.uint8)
+    img = cv2.dilate(img, kernel, iterations=1)  # around lines
+
+    img = cv2.erode(img, kernel, iterations=1)
 
     print(img.shape)  # width height layers
     cv2.imshow('Result', img) # whole pic
