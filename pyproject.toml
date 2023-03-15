@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "learning-opencv"
+version = "0.1.0"
+description = ""
+authors = ["Borteq2 <borteq2@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "learning_opencv"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+opencv-python = "^4.7.0.72"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
