@@ -3,46 +3,37 @@ import numpy as np
 
 img = cv2.imread('../images/pyos-samolyot.jpg')
 
-# """
-# @param flipCode a flag to specify how to flip the array;
-# 0 means
-# .   flipping around the x-axis and positive value (for example,
-# 1) means
-# .   flipping around y-axis. Negative value (for example,
-# -1) means flipping
-# .   around both axes.
-# """
-# img = cv2.flip(src=img, flipCode=1)
+new_img = np.zeros(img.shape, dtype='uint8')
 
+img = cv2.cvtColor(
+    src=img,
+    code=cv2.COLOR_BGR2GRAY)
 
-def rotate(img_param, angle):
-    height, width = img_param.shape[:2]
-    point = (height // 2, width // 2)
+img = cv2.GaussianBlur(
+    src=img,
+    ksize=(5, 5),
+    sigmaX=0
+)
 
-    mat = cv2.getRotationMatrix2D(
-        center=point,
-        angle=angle,
-        scale=1
-    )
+img = cv2.Canny(
+    image=img,
+    threshold1=50,
+    threshold2=50
+)
 
-    return cv2.warpAffine(
-        src=img_param,
-        M=mat,
-        dsize=(height, width)
-    )
+con, hir = cv2.findContours(
+    image=img,
+    mode=cv2.RETR_LIST,
+    method=cv2.CHAIN_APPROX_NONE
+)
 
-def transform(img_param, x, y):
-    mat = np.float32([
-        [1, 0, x],
-        [0, 1, y]
-    ])
+cv2.drawContours(
+    image=new_img,
+    contours=con,
+    contourIdx=-1,
+    color=(230, 111, 148),
+    thickness=1
+)
 
-    return cv2.warpAffine(img_param, mat, (img_param.shape[1], img_param.shape[0]))
-
-
-# img = rotate(img, 90)
-
-img = transform(img, x=30, y=200)
-
-cv2.imshow('Result', img)
+cv2.imshow('Result', new_img)
 cv2.waitKey(0)
